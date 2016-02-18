@@ -2,14 +2,17 @@
 # Conditional build:
 %bcond_without	tests		# build with tests
 #
+%define	snap	20160215
+%define	commit	6c292d3ba78533fed7b5ec46bb93b53419cf6535
+
 Summary:	Khronos reference front-end for GLSL and ESSL
 Name:		glslang
-Version:	3.0
+Version:	3.0.s%{snap}
 Release:	0.1
 License:	BSD-like
 Group:		Applications/Graphics
-Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	f8c8cf31836790f6c1571694f78ec6db
+Source0:	https://github.com/KhronosGroup/glslang/archive/%{commit}/%{name}-%{version}.tar.gz
+# Source0-md5:	3ff41e98843aaf6a3c6aa2c598c96737
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	cmake
 BuildRequires:	llvm-devel
@@ -27,7 +30,7 @@ Group:		Development/Libraries
 A front-end library for programmatic parsing of GLSL/ESSL into an AST.
 
 %prep
-%setup -q
+%setup -qn %{name}-%{commit}
 
 %build
 install -d build
@@ -35,10 +38,10 @@ cd build
 %cmake \
 		../
 %{__make}
-%{__make} install
+%{__make} install DESTDIR=install
 
 %if %{with tests}
-install/bin/glslangValidator -i ../Test/sample.vert ../Test/sample.frag
+install/usr/bin/glslangValidator -i ../Test/sample.vert ../Test/sample.frag
 %endif
 
 %install
@@ -47,16 +50,16 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir}}
 
 cd build
-cp -p install/bin/*  $RPM_BUILD_ROOT%{_bindir}
-cp -p install/lib/*  $RPM_BUILD_ROOT%{_libdir}
+cp -p install/usr/bin/*  $RPM_BUILD_ROOT%{_bindir}
+cp -p install/usr/lib/*  $RPM_BUILD_ROOT%{_libdir}
 cd ..
 
-install -d $RPM_BUILD_ROOT%{_includedir}/%{name}/{SPIRV,glslang/{Include,MachineIndependent/preprocessor,OSDependent/Linux,Public}}
+install -d $RPM_BUILD_ROOT%{_includedir}/%{name}/{SPIRV,glslang/{Include,MachineIndependent/preprocessor,OSDependent,Public}}
 cp -p SPIRV/{*.h,*.hpp} $RPM_BUILD_ROOT%{_includedir}/%{name}/SPIRV
 cp -p glslang/Include/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Include
 cp -p glslang/MachineIndependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent
 cp -p glslang/MachineIndependent/preprocessor/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent/preprocessor
-cp -p glslang/OSDependent/Linux/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/OSDependent/Linux
+cp -p glslang/OSDependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/OSDependent
 cp -p glslang/Public/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Public
 
 %clean
