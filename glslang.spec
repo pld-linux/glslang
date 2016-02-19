@@ -50,17 +50,18 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir}}
 
 cd build
-cp -p install/usr/bin/*  $RPM_BUILD_ROOT%{_bindir}
-cp -p install/usr/lib/*  $RPM_BUILD_ROOT%{_libdir}
+install install/usr/bin/*  $RPM_BUILD_ROOT%{_bindir}
+install install/usr/lib/*  $RPM_BUILD_ROOT%{_libdir}
 cd ..
 
-install -d $RPM_BUILD_ROOT%{_includedir}/%{name}/{SPIRV,glslang/{Include,MachineIndependent/preprocessor,OSDependent,Public}}
-cp -p SPIRV/{*.h,*.hpp} $RPM_BUILD_ROOT%{_includedir}/%{name}/SPIRV
-cp -p glslang/Include/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Include
-cp -p glslang/MachineIndependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent
-cp -p glslang/MachineIndependent/preprocessor/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent/preprocessor
-cp -p glslang/OSDependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/OSDependent
-cp -p glslang/Public/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Public
+install -d $RPM_BUILD_ROOT%{_includedir}/%{name}/{SPIRV,StandAlone,glslang/{Include,MachineIndependent/preprocessor,OSDependent,Public}}
+install SPIRV/{*.h,*.hpp} $RPM_BUILD_ROOT%{_includedir}/%{name}/SPIRV
+install glslang/Include/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Include
+install glslang/MachineIndependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent
+install glslang/MachineIndependent/preprocessor/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent/preprocessor
+install glslang/OSDependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/OSDependent
+install glslang/Public/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Public
+install StandAlone/Worklist.h $RPM_BUILD_ROOT%{_includedir}/%{name}/StandAlone
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -72,6 +73,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc README.md Todo.txt
+%doc README.md
 %{_libdir}/*.a
 %{_includedir}/%{name}
