@@ -8,7 +8,7 @@
 Summary:	Khronos reference front-end for GLSL and ESSL
 Name:		glslang
 Version:	3.0.s%{snap}
-Release:	0.1
+Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{commit}/%{name}-%{version}.tar.gz
@@ -41,7 +41,7 @@ cd build
 %{__make} install DESTDIR=install
 
 %if %{with tests}
-install/usr/bin/glslangValidator -i ../Test/sample.vert ../Test/sample.frag
+./install%{_bindir}/glslangValidator -i ../Test/sample.vert ../Test/sample.frag
 %endif
 
 %install
@@ -50,18 +50,18 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir}}
 
 cd build
-install install/usr/bin/*  $RPM_BUILD_ROOT%{_bindir}
-install install/usr/lib/*  $RPM_BUILD_ROOT%{_libdir}
+cp -p install%{_bindir}/*  $RPM_BUILD_ROOT%{_bindir}
+cp -p install%{_prefix}/lib/* $RPM_BUILD_ROOT%{_libdir}
 cd ..
 
 install -d $RPM_BUILD_ROOT%{_includedir}/%{name}/{SPIRV,StandAlone,glslang/{Include,MachineIndependent/preprocessor,OSDependent,Public}}
-install SPIRV/{*.h,*.hpp} $RPM_BUILD_ROOT%{_includedir}/%{name}/SPIRV
-install glslang/Include/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Include
-install glslang/MachineIndependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent
-install glslang/MachineIndependent/preprocessor/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent/preprocessor
-install glslang/OSDependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/OSDependent
-install glslang/Public/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Public
-install StandAlone/Worklist.h $RPM_BUILD_ROOT%{_includedir}/%{name}/StandAlone
+cp -p SPIRV/{*.h,*.hpp} $RPM_BUILD_ROOT%{_includedir}/%{name}/SPIRV
+cp -p glslang/Include/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Include
+cp -p glslang/MachineIndependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent
+cp -p glslang/MachineIndependent/preprocessor/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent/preprocessor
+cp -p glslang/OSDependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/OSDependent
+cp -p glslang/Public/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Public
+cp -p StandAlone/Worklist.h $RPM_BUILD_ROOT%{_includedir}/%{name}/StandAlone
 
 %clean
 rm -rf $RPM_BUILD_ROOT
