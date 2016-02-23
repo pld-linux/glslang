@@ -8,11 +8,12 @@
 Summary:	Khronos reference front-end for GLSL and ESSL
 Name:		glslang
 Version:	3.0.s%{snap}
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Applications/Graphics
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{commit}/%{name}-%{version}.tar.gz
 # Source0-md5:	784d37f2f27bc3ca54b47003745553f0
+Patch0:		isinf.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	cmake
 BuildRequires:	bison
@@ -32,6 +33,7 @@ A front-end library for programmatic parsing of GLSL/ESSL into an AST.
 
 %prep
 %setup -qn %{name}-%{commit}
+%patch0 -p1
 
 %build
 install -d build
