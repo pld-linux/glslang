@@ -2,18 +2,17 @@
 # Conditional build:
 %bcond_without	tests		# build with tests
 #
-%define	snap	20160219
-%define	commit	0967748fbce0773625dcba0f1185e1dd79092c0d
+%define	snap	20160307
+%define	commit	3c5b1e6b31aca0eb52fe7e82a963ff735f1de31b
 
 Summary:	Khronos reference front-end for GLSL and ESSL
 Name:		glslang
 Version:	3.0.s%{snap}
-Release:	2
+Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{commit}/%{name}-%{version}.tar.gz
-# Source0-md5:	784d37f2f27bc3ca54b47003745553f0
-Patch0:		isinf.patch
+# Source0-md5:	25b3880bb4b356a46ef7e74c4313f67f
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	cmake
 BuildRequires:	bison
@@ -33,7 +32,6 @@ A front-end library for programmatic parsing of GLSL/ESSL into an AST.
 
 %prep
 %setup -qn %{name}-%{commit}
-%patch0 -p1
 
 %build
 install -d build
