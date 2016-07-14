@@ -1,0 +1,13 @@
+diff -dur -x '*~' glslang-4678ca9dacfec7a084dbc69bbe568bdad6889f1b.orig/glslang/MachineIndependent/intermOut.cpp glslang-4678ca9dacfec7a084dbc69bbe568bdad6889f1b/glslang/MachineIndependent/intermOut.cpp
+--- glslang-4678ca9dacfec7a084dbc69bbe568bdad6889f1b.orig/glslang/MachineIndependent/intermOut.cpp	2016-05-13 17:33:42.000000000 +0200
++++ glslang-4678ca9dacfec7a084dbc69bbe568bdad6889f1b/glslang/MachineIndependent/intermOut.cpp	2016-07-14 14:56:03.000000000 +0200
+@@ -49,6 +49,9 @@
+ #ifdef _MSC_VER
+   return _fpclass(x) == _FPCLASS_PINF;
+ #elif defined __ANDROID__ || defined __linux__ || __MINGW32__ || __MINGW64__
++#ifdef isinf
++#undef isinf
++#endif
+   return std::isinf(x) && (x >= 0);
+ #else
+   return isinf(x) && (x >= 0);

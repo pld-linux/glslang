@@ -14,6 +14,7 @@ Group:		Applications/Graphics
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{commit}/%{name}-%{version}.tar.gz
 # Source0-md5:	071445912a8d0f8a533046f0f3b35127
 Patch0:		runtests.patch
+Patch1:		isinf.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	cmake
 BuildRequires:	bison
@@ -34,6 +35,7 @@ A front-end library for programmatic parsing of GLSL/ESSL into an AST.
 %prep
 %setup -qn %{name}-%{commit}
 %patch0 -p1
+%patch1 -p1
 
 %build
 install -d build
