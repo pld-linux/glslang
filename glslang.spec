@@ -2,8 +2,8 @@
 # Conditional build:
 %bcond_without	tests		# build with tests
 #
-%define	snap	20160325
-%define	commit	c3869fee412a90c4eadea0bf936ab2530d2dff51
+%define	snap	20160513
+%define	commit	4678ca9dacfec7a084dbc69bbe568bdad6889f1b
 
 Summary:	Khronos reference front-end for GLSL and ESSL
 Name:		glslang
@@ -12,7 +12,8 @@ Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{commit}/%{name}-%{version}.tar.gz
-# Source0-md5:	061957700875a21369cf79a5a97e230f
+# Source0-md5:	071445912a8d0f8a533046f0f3b35127
+Patch0:		runtests.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	cmake
 BuildRequires:	bison
@@ -32,6 +33,7 @@ A front-end library for programmatic parsing of GLSL/ESSL into an AST.
 
 %prep
 %setup -qn %{name}-%{commit}
+%patch0 -p1
 
 %build
 install -d build
@@ -40,9 +42,12 @@ cd build
 		../
 %{__make}
 %{__make} install DESTDIR=install
+cd ..
 
 %if %{with tests}
-./install%{_bindir}/glslangValidator -i ../Test/sample.vert ../Test/sample.frag
+cd Test
+./runtests
+cd ..
 %endif
 
 %install
@@ -63,6 +68,7 @@ cp -p glslang/MachineIndependent/preprocessor/*.h $RPM_BUILD_ROOT%{_includedir}/
 cp -p glslang/OSDependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/OSDependent
 cp -p glslang/Public/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Public
 cp -p StandAlone/Worklist.h $RPM_BUILD_ROOT%{_includedir}/%{name}/StandAlone
+install build/StandAlone/libglslang-default-resource-limits.so $RPM_BUILD_ROOT%{_libdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -71,6 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README-spirv-remap.txt
 %attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/libglslang-default-resource-limits.so
 
 %files devel
 %defattr(644,root,root,755)
