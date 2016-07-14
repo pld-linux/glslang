@@ -8,7 +8,7 @@
 Summary:	Khronos reference front-end for GLSL and ESSL
 Name:		glslang
 Version:	3.0.s%{snap}
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Applications/Graphics
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{commit}/%{name}-%{version}.tar.gz
