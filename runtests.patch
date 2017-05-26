@@ -9,7 +9,7 @@ diff -dur glslang-4678ca9dacfec7a084dbc69bbe568bdad6889f1b.orig/Test/runtests gl
  TARGETDIR=localResults
  BASEDIR=baseResults
 -EXE=../build/install/bin/glslangValidator
-+EXE=../build/install/usr/bin/glslangValidator
++EXE=../build/StandAlone/glslangValidator
  HASERROR=0
  mkdir -p localResults
  
