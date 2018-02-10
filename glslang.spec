@@ -2,8 +2,8 @@
 # Conditional build:
 %bcond_without	tests		# build with tests
 #
-%define	snap	20161222
-%define	commit	807a0d9e2f4e176f75d62ac3c179c81800ec2608
+%define	snap	20180205
+%define	commit	2651ccaec8170b3257642b3c438f50dc4f181fdd
 
 Summary:	Khronos reference front-end for GLSL and ESSL
 Summary(pl.UTF-8):	Wzorcowy frontend GLSL i ESSL z projektu Khronos
@@ -13,9 +13,8 @@ Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{commit}/%{name}-%{version}.tar.gz
-# Source0-md5:	1d6791bde97542685acbeef26c68fb2d
+# Source0-md5:	6ae5c2ff0dd4704a5978a4abf83f13fe
 Patch0:		runtests.patch
-Patch1:		%{name}-libdir.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	cmake >= 2.8.11
 BuildRequires:	bison
@@ -44,7 +43,6 @@ AST.
 %prep
 %setup -qn %{name}-%{commit}
 %patch0 -p1
-%patch1 -p1
 
 %build
 install -d build
@@ -67,15 +65,6 @@ rm -rf $RPM_BUILD_ROOT
 
 install build/StandAlone/libglslang-default-resource-limits.so $RPM_BUILD_ROOT%{_libdir}
 
-install -d $RPM_BUILD_ROOT%{_includedir}/%{name}/{SPIRV,StandAlone,glslang/{Include,MachineIndependent/preprocessor,OSDependent,Public}}
-cp -p SPIRV/{*.h,*.hpp} $RPM_BUILD_ROOT%{_includedir}/%{name}/SPIRV
-cp -p glslang/Include/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Include
-cp -p glslang/MachineIndependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent
-cp -p glslang/MachineIndependent/preprocessor/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/MachineIndependent/preprocessor
-cp -p glslang/OSDependent/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/OSDependent
-cp -p glslang/Public/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/glslang/Public
-cp -p StandAlone/Worklist.h $RPM_BUILD_ROOT%{_includedir}/%{name}/StandAlone
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -95,4 +84,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libSPIRV.a
 %{_libdir}/libSPVRemapper.a
 %{_libdir}/libglslang.a
+%{_includedir}/SPIRV
 %{_includedir}/glslang
