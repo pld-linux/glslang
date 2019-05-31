@@ -2,23 +2,23 @@
 # Conditional build:
 %bcond_without	tests		# build with tests
 #
-%define	snap	20180205
-%define	commit	2651ccaec8170b3257642b3c438f50dc4f181fdd
-
 Summary:	Khronos reference front-end for GLSL and ESSL
 Summary(pl.UTF-8):	Wzorcowy frontend GLSL i ESSL z projektu Khronos
 Name:		glslang
-Version:	3.0.s%{snap}
+Version:	7.11.3214
 Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
-Source0:	https://github.com/KhronosGroup/glslang/archive/%{commit}/%{name}-%{version}.tar.gz
-# Source0-md5:	6ae5c2ff0dd4704a5978a4abf83f13fe
+#Source0Download: https://github.com/KhronosGroup/glslang/releases
+Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	4699eeb6501bad8ed982a279fb827390
 Patch0:		runtests.patch
+Patch1:		%{name}-system-spirv.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	cmake >= 2.8.11
 BuildRequires:	bison
 BuildRequires:	libstdc++-devel >= 6:4.7
+%{?with_tests:BuildRequires:	spirv-tools-devel}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -41,8 +41,9 @@ Biblioteki frontendowe do programowej analizy GLSL/ESSL do postaci
 AST.
 
 %prep
-%setup -qn %{name}-%{commit}
+%setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 install -d build
@@ -63,7 +64,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install build/StandAlone/libglslang-default-resource-limits.so $RPM_BUILD_ROOT%{_libdir}
+#install build/StandAlone/libglslang-default-resource-limits.so $RPM_BUILD_ROOT%{_libdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -73,16 +74,16 @@ rm -rf $RPM_BUILD_ROOT
 %doc README-spirv-remap.txt
 %attr(755,root,root) %{_bindir}/glslangValidator
 %attr(755,root,root) %{_bindir}/spirv-remap
+%attr(755,root,root) %{_libdir}/libHLSL.so
+%attr(755,root,root) %{_libdir}/libSPIRV.so
+%attr(755,root,root) %{_libdir}/libSPVRemapper.so
+%attr(755,root,root) %{_libdir}/libglslang.so
 %attr(755,root,root) %{_libdir}/libglslang-default-resource-limits.so
 
 %files devel
 %defattr(644,root,root,755)
 %doc README.md
-%{_libdir}/libHLSL.a
 %{_libdir}/libOGLCompiler.a
 %{_libdir}/libOSDependent.a
-%{_libdir}/libSPIRV.a
-%{_libdir}/libSPVRemapper.a
-%{_libdir}/libglslang.a
 %{_includedir}/SPIRV
 %{_includedir}/glslang
