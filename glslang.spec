@@ -31,6 +31,7 @@ Frontend i walidator shaderów OpenGL i OpenGL ES.
 Summary:	Khronos reference front-end libraries for GLSL and ESSL
 Summary(pl.UTF-8):	Wzorcowe biblioteki frontendowe GLSL i ESSL z projektu Khronos
 Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 A front-end libraries for programmatic parsing of GLSL/ESSL into an
@@ -63,8 +64,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
-
-#install build/StandAlone/libglslang-default-resource-limits.so $RPM_BUILD_ROOT%{_libdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
