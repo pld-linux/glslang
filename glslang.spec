@@ -1,19 +1,17 @@
 #
 # Conditional build:
-%bcond_without	tests		# build with tests
+%bcond_with	tests		# build with tests
 #
-%define	snap	20180205
-%define	commit	2651ccaec8170b3257642b3c438f50dc4f181fdd
 
 Summary:	Khronos reference front-end for GLSL and ESSL
 Summary(pl.UTF-8):	Wzorcowy frontend GLSL i ESSL z projektu Khronos
 Name:		glslang
-Version:	3.0.s%{snap}
+Version:	7.12.3352
 Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
-Source0:	https://github.com/KhronosGroup/glslang/archive/%{commit}/%{name}-%{version}.tar.gz
-# Source0-md5:	6ae5c2ff0dd4704a5978a4abf83f13fe
+Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	b31bc89ffa86dbb5ab638c9c2a412302
 Patch0:		runtests.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	cmake >= 2.8.11
@@ -41,7 +39,7 @@ Biblioteki frontendowe do programowej analizy GLSL/ESSL do postaci
 AST.
 
 %prep
-%setup -qn %{name}-%{commit}
+%setup -q
 %patch0 -p1
 
 %build
@@ -73,16 +71,16 @@ rm -rf $RPM_BUILD_ROOT
 %doc README-spirv-remap.txt
 %attr(755,root,root) %{_bindir}/glslangValidator
 %attr(755,root,root) %{_bindir}/spirv-remap
+%attr(755,root,root) %{_libdir}/libHLSL.so
+%attr(755,root,root) %{_libdir}/libSPIRV.so
+%attr(755,root,root) %{_libdir}/libSPVRemapper.so
 %attr(755,root,root) %{_libdir}/libglslang-default-resource-limits.so
+%attr(755,root,root) %{_libdir}/libglslang.so
 
 %files devel
 %defattr(644,root,root,755)
 %doc README.md
-%{_libdir}/libHLSL.a
 %{_libdir}/libOGLCompiler.a
 %{_libdir}/libOSDependent.a
-%{_libdir}/libSPIRV.a
-%{_libdir}/libSPVRemapper.a
-%{_libdir}/libglslang.a
 %{_includedir}/SPIRV
 %{_includedir}/glslang
