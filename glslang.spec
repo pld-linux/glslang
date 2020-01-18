@@ -1,5 +1,6 @@
 #
 # Conditional build:
+%bcond_without	spirv_opt	# build with spirv-opt capability
 %bcond_without	tests		# build with tests
 
 Summary:	Khronos reference front-end for GLSL and ESSL
@@ -15,10 +16,15 @@ Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{ve
 Patch0:		runtests.patch
 Patch1:		%{name}-system-spirv.patch
 URL:		https://github.com/KhronosGroup/glslang
-BuildRequires:	cmake >= 2.8.11
 BuildRequires:	bison
+BuildRequires:	cmake >= 2.8.11
 BuildRequires:	libstdc++-devel >= 6:4.7
-%{?with_tests:BuildRequires:	spirv-tools-devel}
+%if %{with tests} || %{with spirv_opt}
+BuildRequires:	spirv-tools-devel
+%endif
+%if %{with spirv_opt}
+%requires_ge_to	spirv-tools-libs spirv-tools-devel
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -49,7 +55,8 @@ AST.
 %build
 install -d build
 cd build
-%cmake ..
+%cmake .. \
+	%{!?with_spirv_opt:-DENABLE_OPT=OFF}
 %{__make}
 cd ..
 
