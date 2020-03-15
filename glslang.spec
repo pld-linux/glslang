@@ -6,18 +6,19 @@
 Summary:	Khronos reference front-end for GLSL and ESSL
 Summary(pl.UTF-8):	Wzorcowy frontend GLSL i ESSL z projektu Khronos
 Name:		glslang
-Version:	7.12.3352
-Release:	2
+Version:	8.13.3559
+Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
 #Source0Download: https://github.com/KhronosGroup/glslang/releases
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	b31bc89ffa86dbb5ab638c9c2a412302
-Patch0:		runtests.patch
+# Source0-md5:	cb32322377cee2bc1cee5b60ebe46133
+# https://github.com/KhronosGroup/glslang/commit/273d3a50931951b52c5b1f46ea583c786f1be6c8.patch
+Patch0:		%{name}-vulkan1.2.patch
 Patch1:		%{name}-system-spirv.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	bison
-BuildRequires:	cmake >= 2.8.11
+BuildRequires:	cmake >= 2.8.12
 BuildRequires:	libstdc++-devel >= 6:4.7
 %if %{with tests} || %{with spirv_opt}
 BuildRequires:	spirv-tools-devel
@@ -62,7 +63,8 @@ cd ..
 
 %if %{with tests}
 cd Test
-./runtests
+LD_LIBRARY_PATH=../build/StandAlone
+./runtests localResults ../build/StandAlone/glslangValidator ../build/StandAlone/spirv-remap
 cd ..
 %endif
 
@@ -77,7 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README-spirv-remap.txt
+%doc LICENSE.txt README-spirv-remap.txt
 %attr(755,root,root) %{_bindir}/glslangValidator
 %attr(755,root,root) %{_bindir}/spirv-remap
 %attr(755,root,root) %{_libdir}/libHLSL.so
@@ -93,3 +95,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libOSDependent.a
 %{_includedir}/SPIRV
 %{_includedir}/glslang
+%{_libdir}/cmake/HLSLTargets*.cmake
+%{_libdir}/cmake/OGLCompilerTargets*.cmake
+%{_libdir}/cmake/OSDependentTargets*.cmake
+%{_libdir}/cmake/SPIRVTargets*.cmake
+%{_libdir}/cmake/SPVRemapperTargets*.cmake
+%{_libdir}/cmake/glslang-default-resource-limitsTargets*.cmake
+%{_libdir}/cmake/glslangTargets*.cmake
+%{_libdir}/cmake/glslangValidatorTargets*.cmake
+%{_libdir}/cmake/spirv-remapTargets*.cmake
