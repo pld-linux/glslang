@@ -1,8 +1,8 @@
---- glslang-7.11.3214/CMakeLists.txt.orig	2019-05-09 10:11:28.000000000 +0200
-+++ glslang-7.11.3214/CMakeLists.txt	2019-05-30 22:17:18.543918193 +0200
-@@ -117,10 +117,6 @@
- # We depend on these for later projects, so they should come first.
- add_subdirectory(External)
+--- glslang-11.1.0/CMakeLists.txt.orig	2021-04-28 20:23:56.849255577 +0200
++++ glslang-11.1.0/CMakeLists.txt	2021-04-28 20:25:03.082717552 +0200
+@@ -320,10 +320,6 @@ if(BUILD_EXTERNAL AND IS_DIRECTORY ${CMA
+     add_subdirectory(External)
+ endif()
  
 -if(NOT TARGET SPIRV-Tools-opt)
 -    set(ENABLE_OPT OFF)
