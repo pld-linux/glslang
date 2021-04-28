@@ -6,20 +6,20 @@
 Summary:	Khronos reference front-end for GLSL and ESSL
 Summary(pl.UTF-8):	Wzorcowy frontend GLSL i ESSL z projektu Khronos
 Name:		glslang
-Version:	8.13.3743
+Version:	11.1.0
 Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
 #Source0Download: https://github.com/KhronosGroup/glslang/releases
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	93dca40a44fc88b6710348458d06b54f
+# Source0-md5:	1688a1e36945d72df960b859ede55078
 Patch0:		%{name}-system-spirv.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	bison
 BuildRequires:	cmake >= 2.8.12
 BuildRequires:	libstdc++-devel >= 6:4.7
 %if %{with tests} || %{with spirv_opt}
-BuildRequires:	spirv-tools-devel
+BuildRequires:	spirv-tools-devel >= 1:2020.6
 %endif
 %if %{with spirv_opt}
 %requires_ge_to	spirv-tools-libs spirv-tools-devel
@@ -82,15 +82,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libHLSL.so
 %attr(755,root,root) %{_libdir}/libSPIRV.so
 %attr(755,root,root) %{_libdir}/libSPVRemapper.so
-%attr(755,root,root) %{_libdir}/libglslang.so
+%attr(755,root,root) %{_libdir}/libglslang.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libglslang.so.11
 %attr(755,root,root) %{_libdir}/libglslang-default-resource-limits.so
 
 %files devel
 %defattr(644,root,root,755)
 %doc README.md
+%attr(755,root,root) %{_libdir}/libglslang.so
 %{_libdir}/libOGLCompiler.a
 %{_libdir}/libOSDependent.a
-%{_includedir}/SPIRV
 %{_includedir}/glslang
 %{_libdir}/cmake/HLSLTargets*.cmake
 %{_libdir}/cmake/OGLCompilerTargets*.cmake
