@@ -6,20 +6,20 @@
 Summary:	Khronos reference front-end for GLSL and ESSL
 Summary(pl.UTF-8):	Wzorcowy frontend GLSL i ESSL z projektu Khronos
 Name:		glslang
-Version:	11.1.0
+Version:	11.7.1
 Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
 #Source0Download: https://github.com/KhronosGroup/glslang/releases
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	1688a1e36945d72df960b859ede55078
+# Source0-md5:	0855c7b65da1e9be5ff89eeddeda691a
 Patch0:		%{name}-system-spirv.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	bison
 BuildRequires:	cmake >= 2.8.12
 BuildRequires:	libstdc++-devel >= 6:4.7
 %if %{with tests} || %{with spirv_opt}
-BuildRequires:	spirv-tools-devel >= 1:2020.6
+BuildRequires:	spirv-tools-devel >= 1:2021.4
 %endif
 %if %{with spirv_opt}
 %requires_ge_to	spirv-tools-libs spirv-tools-devel
