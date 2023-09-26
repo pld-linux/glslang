@@ -6,14 +6,15 @@
 Summary:	Khronos reference front-end for GLSL and ESSL
 Summary(pl.UTF-8):	Wzorcowy frontend GLSL i ESSL z projektu Khronos
 Name:		glslang
-Version:	12.1.0
+Version:	12.3.1
 Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
 #Source0Download: https://github.com/KhronosGroup/glslang/releases
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	218e2dd3ab422fca3a99ba6ca517c84c
+# Source0-md5:	0d453bdb40e79948bd05aa3910fdec56
 Patch0:		%{name}-system-spirv.patch
+Patch1:		%{name}-symlink.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	bison
 BuildRequires:	cmake >= 3.14.0
@@ -49,6 +50,7 @@ AST.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %cmake -B build \
@@ -78,6 +80,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc LICENSE.txt README-spirv-remap.txt
+%attr(755,root,root) %{_bindir}/glslang
 %attr(755,root,root) %{_bindir}/glslangValidator
 %attr(755,root,root) %{_bindir}/spirv-remap
 %attr(755,root,root) %{_libdir}/libHLSL.so.*.*.*
@@ -88,8 +91,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libSPVRemapper.so.12
 %attr(755,root,root) %{_libdir}/libglslang.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libglslang.so.12
-%attr(755,root,root) %{_libdir}/libglslang-default-resource-limits.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libglslang-default-resource-limits.so.12
 
 %files devel
 %defattr(644,root,root,755)
@@ -98,12 +99,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libSPIRV.so
 %attr(755,root,root) %{_libdir}/libSPVRemapper.so
 %attr(755,root,root) %{_libdir}/libglslang.so
-%attr(755,root,root) %{_libdir}/libglslang-default-resource-limits.so
+%{_libdir}/libglslang-default-resource-limits.a
 %{_includedir}/glslang
 %{_libdir}/cmake/glslang
 %{_libdir}/cmake/HLSLTargets.cmake
 %{_libdir}/cmake/SPIRVTargets.cmake
 %{_libdir}/cmake/SPVRemapperTargets.cmake
 %{_libdir}/cmake/glslang-default-resource-limitsTargets.cmake
-%{_libdir}/cmake/glslangValidatorTargets.cmake
+%{_libdir}/cmake/glslang-standaloneTargets.cmake
 %{_libdir}/cmake/spirv-remapTargets.cmake
