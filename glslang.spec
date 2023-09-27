@@ -21,6 +21,7 @@ BuildRequires:	cmake >= 3.14.0
 BuildRequires:	libstdc++-devel >= 6:7
 BuildRequires:	python3
 BuildRequires:	python3-modules
+BuildRequires:	rpmbuild(macros) >= 1.605
 %if %{with tests} || %{with spirv_opt}
 BuildRequires:	spirv-tools-devel >= 1:2022.4
 %endif
