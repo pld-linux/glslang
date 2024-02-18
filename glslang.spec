@@ -1,20 +1,18 @@
 #
 # Conditional build:
-%bcond_without	spirv_opt	# build with spirv-opt capability
-%bcond_without	tests		# build with tests
+%bcond_without	spirv_opt	# spirv-opt capability
+%bcond_without	tests		# testing
 
 Summary:	Khronos reference front-end for GLSL and ESSL
 Summary(pl.UTF-8):	Wzorcowy frontend GLSL i ESSL z projektu Khronos
 Name:		glslang
-Version:	12.3.1
+Version:	14.0.0
 Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
 #Source0Download: https://github.com/KhronosGroup/glslang/releases
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	0d453bdb40e79948bd05aa3910fdec56
-Patch0:		%{name}-system-spirv.patch
-Patch1:		%{name}-symlink.patch
+# Source0-md5:	bfbf7fb0d18d00306ef229f289a8d593
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	bison
 BuildRequires:	cmake >= 3.14.0
@@ -52,11 +50,10 @@ AST.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 %build
 %cmake -B build \
+	-DALLOW_EXTERNAL_SPIRV_TOOLS=ON \
 	%{!?with_spirv_opt:-DENABLE_OPT=OFF}
 
 %{__make} -C build
@@ -82,30 +79,27 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc LICENSE.txt README-spirv-remap.txt
+%doc CHANGES.md LICENSE.txt README-spirv-remap.txt
 %attr(755,root,root) %{_bindir}/glslang
-%attr(755,root,root) %{_bindir}/glslangValidator
 %attr(755,root,root) %{_bindir}/spirv-remap
-%attr(755,root,root) %{_libdir}/libHLSL.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libHLSL.so.12
 %attr(755,root,root) %{_libdir}/libSPIRV.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libSPIRV.so.12
+%attr(755,root,root) %ghost %{_libdir}/libSPIRV.so.14
 %attr(755,root,root) %{_libdir}/libSPVRemapper.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libSPVRemapper.so.12
+%attr(755,root,root) %ghost %{_libdir}/libSPVRemapper.so.14
 %attr(755,root,root) %{_libdir}/libglslang.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libglslang.so.12
+%attr(755,root,root) %ghost %{_libdir}/libglslang.so.14
+%attr(755,root,root) %{_libdir}/libglslang-default-resource-limits.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libglslang-default-resource-limits.so.14
 
 %files devel
 %defattr(644,root,root,755)
 %doc README.md
-%attr(755,root,root) %{_libdir}/libHLSL.so
 %attr(755,root,root) %{_libdir}/libSPIRV.so
 %attr(755,root,root) %{_libdir}/libSPVRemapper.so
 %attr(755,root,root) %{_libdir}/libglslang.so
-%{_libdir}/libglslang-default-resource-limits.a
+%attr(755,root,root) %{_libdir}/libglslang-default-resource-limits.so
 %{_includedir}/glslang
 %{_libdir}/cmake/glslang
-%{_libdir}/cmake/HLSLTargets.cmake
 %{_libdir}/cmake/SPIRVTargets.cmake
 %{_libdir}/cmake/SPVRemapperTargets.cmake
 %{_libdir}/cmake/glslang-default-resource-limitsTargets.cmake
