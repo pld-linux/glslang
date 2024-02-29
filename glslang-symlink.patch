@@ -1,0 +1,11 @@
+--- glslang-14.0.0/StandAlone/CMakeLists.txt.orig	2023-12-22 18:11:28.000000000 +0100
++++ glslang-14.0.0/StandAlone/CMakeLists.txt	2024-02-29 20:31:40.878763802 +0100
+@@ -116,7 +116,7 @@ if(PROJECT_IS_TOP_LEVEL)
+     # Create the same symlink at install time
+     install(CODE "execute_process( \
+                       COMMAND ${CMAKE_COMMAND} -E ${link_method} $<TARGET_FILE_NAME:glslang-standalone> ${legacy_glslang_name} \
+-                      WORKING_DIRECTORY \$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR})")
++                      WORKING_DIRECTORY \$ENV{DESTDIR}${CMAKE_INSTALL_FULL_BINDIR})")
+ 
+     if(ENABLE_SPVREMAPPER)
+         install(TARGETS spirv-remap EXPORT glslang-targets)

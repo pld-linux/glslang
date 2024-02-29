@@ -13,6 +13,7 @@ Group:		Applications/Graphics
 #Source0Download: https://github.com/KhronosGroup/glslang/releases
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	bfbf7fb0d18d00306ef229f289a8d593
+Patch0:		%{name}-symlink.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	bison
 BuildRequires:	cmake >= 3.14.0
@@ -50,6 +51,7 @@ AST.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %cmake -B build \
@@ -81,6 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc CHANGES.md LICENSE.txt README-spirv-remap.txt
 %attr(755,root,root) %{_bindir}/glslang
+%attr(755,root,root) %{_bindir}/glslangValidator
 %attr(755,root,root) %{_bindir}/spirv-remap
 %attr(755,root,root) %{_libdir}/libSPIRV.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libSPIRV.so.14
