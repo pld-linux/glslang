@@ -6,23 +6,23 @@
 Summary:	Khronos reference front-end for GLSL and ESSL
 Summary(pl.UTF-8):	Wzorcowy frontend GLSL i ESSL z projektu Khronos
 Name:		glslang
-Version:	14.0.0
+Version:	14.1.0
 Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
 #Source0Download: https://github.com/KhronosGroup/glslang/releases
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	bfbf7fb0d18d00306ef229f289a8d593
+# Source0-md5:	b2d0ae963b44e23533409eb63ea06a56
 Patch0:		%{name}-symlink.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	bison
-BuildRequires:	cmake >= 3.14.0
+BuildRequires:	cmake >= 3.17.2
 BuildRequires:	libstdc++-devel >= 6:7
 BuildRequires:	python3
 BuildRequires:	python3-modules
 BuildRequires:	rpmbuild(macros) >= 1.605
 %if %{with tests} || %{with spirv_opt}
-BuildRequires:	spirv-tools-devel >= 1:2022.4
+BuildRequires:	spirv-tools-devel >= 1:2024.1
 %endif
 %if %{with spirv_opt}
 %requires_ge_to	spirv-tools-libs spirv-tools-devel
@@ -103,8 +103,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libglslang-default-resource-limits.so
 %{_includedir}/glslang
 %{_libdir}/cmake/glslang
-%{_libdir}/cmake/SPIRVTargets.cmake
-%{_libdir}/cmake/SPVRemapperTargets.cmake
-%{_libdir}/cmake/glslang-default-resource-limitsTargets.cmake
-%{_libdir}/cmake/glslang-standaloneTargets.cmake
-%{_libdir}/cmake/spirv-remapTargets.cmake
