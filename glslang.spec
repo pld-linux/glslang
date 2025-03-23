@@ -51,7 +51,7 @@ AST.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 %cmake -B build \
