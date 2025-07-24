@@ -6,13 +6,13 @@
 Summary:	Khronos reference front-end for GLSL and ESSL
 Summary(pl.UTF-8):	Wzorcowy frontend GLSL i ESSL z projektu Khronos
 Name:		glslang
-Version:	15.1.0
+Version:	15.4.0
 Release:	1
 License:	BSD-like
 Group:		Applications/Graphics
 #Source0Download: https://github.com/KhronosGroup/glslang/releases
 Source0:	https://github.com/KhronosGroup/glslang/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	2bf049666f223732fc18d6c8b16b98cf
+# Source0-md5:	a400ed377dc9de8b87a8179a90cef3b8
 Patch0:		%{name}-symlink.patch
 URL:		https://github.com/KhronosGroup/glslang
 BuildRequires:	bison
